@@ -74,7 +74,7 @@ with(sweden,plot(Date, Fatalities , type= 'l'))
 
 ![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-Since the count is cumulative, the trend is exponential in nature.
+Since the vales are cumulative, the trend is exponential in nature.
 
 ``` r
 # ARIMA Model Building
@@ -137,8 +137,8 @@ pacf(as.numeric(ARIMA_f$residuals), lag.max = 20, main= "Residuals PACF plot")
 
 ![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-There is some valueable information persent at the 5th lag. Overall, it
-is quite good with room for improvement.
+There is some valueable information persent between the 5th-10th lag.
+Nonetheless, it is quite good with room for improvement.
 
 Box-Ljung Test
 
