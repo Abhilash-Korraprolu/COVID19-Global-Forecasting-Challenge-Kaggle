@@ -1,6 +1,9 @@
 COVID-19 Global Forecasting (Kaggle Competition)
 ================
 
+Challenge:
+<https://www.kaggle.com/c/covid19-global-forecasting-week-3/overview>
+
 Strategy: My choice of algorithm is Time Series-ARIMA. I first checked
 its effectiveness by building ARIMA models for 3-4 countries. I
 concluded that its performance was very good. I then automated this
