@@ -62,14 +62,14 @@ sweden= train[ train$Country_Region== 'Sweden', ]
 with(sweden,plot(Date, ConfirmedCases , type= 'l'))
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 # Fatalities in Sweden
 with(sweden,plot(Date, Fatalities , type= 'l'))
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 Since the count is cumulative, the trend is exponential in nature.
 
@@ -123,7 +123,7 @@ acf(as.numeric(ARIMA_cc$residuals) , lag.max = 20, main= "Residuals ACF plot")
 pacf(as.numeric(ARIMA_cc$residuals), lag.max = 20, main= "Residuals PACF plot")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 # Fatalities
@@ -132,7 +132,7 @@ acf(as.numeric(ARIMA_f$residuals), lag.max = 20, main= "Residuals ACF plot")
 pacf(as.numeric(ARIMA_f$residuals), lag.max = 20, main= "Residuals PACF plot")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 There is some valueable information persent at the 5th lag. Overall, it
 is quite good with room for improvement.
@@ -172,7 +172,7 @@ forecast_cc <- forecast(ARIMA_cc, h= 12)
 plot(forecast_cc, shadecols= "oldstyle")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ``` r
 # Fatalities
@@ -180,7 +180,7 @@ forecast_f <- forecast(ARIMA_f, h= 12)
 plot(forecast_f, shadecols= "oldstyle")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 Since the forecasting is for over 100 countries and is per state for
 some countries, we automate this process.
