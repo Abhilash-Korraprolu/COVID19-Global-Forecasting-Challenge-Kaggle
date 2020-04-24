@@ -1,7 +1,16 @@
 COVID-19 Global Forecasting (Kaggle Competition)
 ================
 
+Strategy: My choice of algorithm is Time Series-ARIMA. I first checked
+its effectiveness by building ARIMA models for 3-4 countries. I
+concluded that its performance was very good. I then automated this
+process and forecasted for all the given countries/states.
+
 ``` r
+library(tseries)
+library(forecast)
+library(dplyr)
+
 # Reading data
 train<- read.csv('train.csv', stringsAsFactors= FALSE)
 test<- read.csv('test.csv', stringsAsFactors= FALSE)
@@ -22,25 +31,45 @@ head(train)
     ## 6                   Afghanistan 2020-01-27              0          0
 
 Some countries require forecasting for the whole while others such as
-Austraila need forcasting for its states and not as a whole.
+Austraila need forcasting for its states and not as a
+    whole.
 
 ``` r
-# Taking Sweden as an example country to try ARIMA on.
+head(train[ train$Country_Region== 'Australia', ])
+```
+
+    ##                   Province_State Country_Region       Date ConfirmedCases
+    ## 617 Australian Capital Territory      Australia 2020-01-22              0
+    ## 618 Australian Capital Territory      Australia 2020-01-23              0
+    ## 619 Australian Capital Territory      Australia 2020-01-24              0
+    ## 620 Australian Capital Territory      Australia 2020-01-25              0
+    ## 621 Australian Capital Territory      Australia 2020-01-26              0
+    ## 622 Australian Capital Territory      Australia 2020-01-27              0
+    ##     Fatalities
+    ## 617          0
+    ## 618          0
+    ## 619          0
+    ## 620          0
+    ## 621          0
+    ## 622          0
+
+Taking Sweden as an example country to try ARIMA on.
+
+``` r
 sweden= train[ train$Country_Region== 'Sweden', ]
-sweden$weekday <- weekdays(sweden$Date)
 
 # Confirmed Cases in Sweden
 with(sweden,plot(Date, ConfirmedCases , type= 'l'))
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](solution_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 # Fatalities in Sweden
 with(sweden,plot(Date, Fatalities , type= 'l'))
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](solution_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 Since the count is cumulative, the trend is exponential in nature.
 
@@ -94,7 +123,7 @@ acf(as.numeric(ARIMA_cc$residuals) , lag.max = 20, main= "Residuals ACF plot")
 pacf(as.numeric(ARIMA_cc$residuals), lag.max = 20, main= "Residuals PACF plot")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](solution_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 # Fatalities
@@ -103,10 +132,10 @@ acf(as.numeric(ARIMA_f$residuals), lag.max = 20, main= "Residuals ACF plot")
 pacf(as.numeric(ARIMA_f$residuals), lag.max = 20, main= "Residuals PACF plot")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](solution_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-There is some valueable information at 5th lag. Overall it is quite good
-with some room for improvement.
+There is some valueable information persent at the 5th lag. Overall, it
+is quite good with room for improvement.
 
 Box-Ljung Test
 
@@ -143,7 +172,7 @@ forecast_cc <- forecast(ARIMA_cc, h= 12)
 plot(forecast_cc, shadecols= "oldstyle")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](solution_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ``` r
 # Fatalities
@@ -151,7 +180,7 @@ forecast_f <- forecast(ARIMA_f, h= 12)
 plot(forecast_f, shadecols= "oldstyle")
 ```
 
-![](solution_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](solution_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 Since the forecasting is for over 100 countries and is per state for
 some countries, we automate this process.
